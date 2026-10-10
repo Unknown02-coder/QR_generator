@@ -1,0 +1,21 @@
+{
+  "name": "@qr-generator/frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "tsc -p tsconfig.test.json && node --test .test-build/tests/*.test.js",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "qrcode": "1.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.6",
+    "@types/qrcode": "1.5.6",
+    "jsqr": "1.4.0",
+    "sharp": "0.35.5",
+    "typescript": "5.9.3"
+  }
+}
