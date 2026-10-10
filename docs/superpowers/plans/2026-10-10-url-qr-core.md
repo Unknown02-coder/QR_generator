@@ -53,7 +53,7 @@
 
 - Work is on `codex/url-qr-core` in the clean existing checkout. No new worktree is necessary for this local first slice.
 - Do not push, merge, publish, or claim web UI/authentication/download completion.
-- Future UI errors missing from the SVG remain explicit gaps; module error codes do not approve final UI wording.
+- Follow-up on 2026-10-10: the user delegated missing UI decisions. The `시안 보완 확정 UI` section of docs/설계안.md now fixes password visibility and capacity/generation/save/download failure copy and recovery behavior. These UI additions remain unimplemented.
 
 ## Completion evidence
 

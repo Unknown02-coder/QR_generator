@@ -23,7 +23,7 @@ npm run build
 
 `frontend/src/qr/url.ts`의 `validateUrl(input)`은 HTTP/HTTPS 주소를 확인하고 `{ ok: true, payload }` 또는 필드 오류를 반환한다. 원문을 정규화하지 않으며, URL 파서가 묵시적으로 보정하는 공백·제어 문자·역슬래시·과도한 슬래시는 오류로 처리한다.
 
-`frontend/src/qr/generate.ts`의 `generateQr(payload)`은 `{ ok: true, matrix, svg, quietZone: 4 }` 또는 생성 오류를 반환한다. 검정 모듈과 불투명 흰 배경을 사용하며, 페이로드를 SVG 마크업에 넣지 않는다. QR 라이브러리의 오류 정정 수준은 M이다. 생성 오류의 message는 모듈의 기본 설명이며, 시안에 없는 최종 UI 문구는 아직 확정하지 않았다.
+`frontend/src/qr/generate.ts`의 `generateQr(payload)`은 `{ ok: true, matrix, svg, quietZone: 4 }` 또는 생성 오류를 반환한다. 검정 모듈과 불투명 흰 배경을 사용하며, 페이로드를 SVG 마크업에 넣지 않는다. QR 라이브러리의 오류 정정 수준은 M이다. 용량 초과와 생성 실패의 message는 설계안의 `시안 보완 확정 UI`에 확정한 문구와 일치한다.
 
 ```ts
 import { validateUrl } from './frontend/src/qr/url.js';
