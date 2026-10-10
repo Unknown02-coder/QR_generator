@@ -1806,8 +1806,8 @@
     <text x="786" y="829" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="13" font-weight="400" text-anchor="start">새로고침하면 입력은 사라져요. QR은 여러 번 스캔할 수 있어요.</text>
     <desc>비로그인으로 사용하기는 입력을 유지하며 생성 화면으로 이동. 현재 입력에서 바로 다운로드. 계정 저장과 자동 보관은 하지 않음. 로그인 실패 후에도 비로그인 사용 가능.</desc>
   </g>
-  <text x="1600" y="2878" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 로그인 · 오류</text>
-  <g id="github-login-error" transform="translate(1600 2900)">
+  <text x="6160" y="2878" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 로그인 · 오류</text>
+  <g id="github-login-error" transform="translate(6160 2900)">
     <rect x="0" y="0" width="1440" height="1060" rx="0" fill="#F9FAFB" />
     <text x="120" y="69" fill="#191F28" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">QR 만들기</text>
     <text x="1070" y="69" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="15" font-weight="500" text-anchor="middle">QR 만들기</text>
@@ -5812,8 +5812,8 @@
     </g>
     <desc>비로그인 브라우저 다운로드. 서버 저장과 계정 조회 없음. 현재 입력의 QR 생성 결과를 PNG 1024×1024 또는 SVG로 내보냄. 실패 시 입력·형식 유지와 재시도. 창 닫기로 폼 복귀. 다운로드 파일은 반복 스캔 가능.</desc>
   </g>
-<text x="3120" y="6518" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 인증 · 진행 중</text>
-<g id="github-auth-waiting" transform="translate(3120 6540)">
+<text x="1600" y="2878" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 인증 · 진행 중</text>
+<g id="github-auth-waiting" transform="translate(1600 2900)">
     <desc>원래 QR 입력 탭에서 GitHub 별도 인증 창을 기다리는 상태. 외부 UI는 자리 표시이며 서비스가 비밀번호를 수집하지 않는다.</desc>
     <rect x="0" y="0" width="1440" height="1080" rx="0" fill="#F9FAFB" />
     <text x="120" y="69" fill="#191F28" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">QR 만들기</text>
@@ -5847,8 +5847,8 @@
     <text x="772" y="843" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">GitHub 저장소 접근 권한을 요청하지 않아요.</text>
     <text x="120" y="1008" fill="#8B95A1" font-family="Noto Sans KR, Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">인증 취소·실패 시 로그인 안내로 돌아가며, 기존 입력은 유지돼요.</text>
     </g>
-<text x="4640" y="6518" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 인증 · 팝업 차단</text>
-<g id="github-popup-blocked" transform="translate(4640 6540)">
+<text x="3120" y="2878" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 인증 · 팝업 차단</text>
+<g id="github-popup-blocked" transform="translate(3120 2900)">
     <desc>별도 인증 창을 열지 못한 상태. 팝업 허용 후 다시 열기와 입력을 유지하는 비로그인 진입을 제공한다.</desc>
     <rect x="0" y="0" width="1440" height="1080" rx="0" fill="#F9FAFB" />
     <text x="120" y="69" fill="#191F28" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">QR 만들기</text>
@@ -5879,8 +5879,8 @@
     <text x="786" y="793" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="15" font-weight="400" text-anchor="start">현재 입력은 이 탭에서만 유지돼요.</text>
     <text x="120" y="1008" fill="#8B95A1" font-family="Noto Sans KR, Arial, sans-serif" font-size="14" font-weight="400" text-anchor="start">원래 입력 탭을 GitHub로 이동시키지 않고 별도 창에서 인증해요.</text>
     </g>
-<text x="6160" y="6518" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 인증 완료 · 원래 입력 복귀</text>
-<g id="github-auth-return" transform="translate(6160 6540)">
+<text x="4640" y="2878" fill="#6B7684" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">GitHub 인증 완료 · 원래 입력 복귀</text>
+<g id="github-auth-return" transform="translate(4640 2900)">
     <desc>인증 후 기존 생성 화면으로 복귀한 상태이며 별도 성공 페이지가 아니다. 신규 서비스 계정 생성과 기존 계정 로그인은 같은 흐름이다. 저장 목적이면 기존 저장 창을 연다.</desc>
     <rect x="0" y="0" width="1440" height="1080" rx="0" fill="#F9FAFB" />
     <text x="120" y="71" fill="#191F28" font-family="Noto Sans KR, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="start">QR 만들기</text>
