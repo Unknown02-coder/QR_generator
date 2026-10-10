@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test, mock } from 'node:test';
+import QRCode from 'qrcode';
 import { createRequire } from 'node:module';
 import sharp from 'sharp';
 import { generateQr } from '../src/qr/generate.js';
@@ -114,4 +115,17 @@ test('success, capacity failure and a different success have independent results
   const decoded = jsQR(new Uint8ClampedArray(data), info.width, info.height);
   assert.ok(decoded);
   assert.equal(decoded.data, secondPayload);
+});
+
+test('unexpected generation failure has a safe recoverable message without a stale QR', () => {
+  const mocked = mock.method(QRCode, 'create', () => { throw new Error('private internal failure'); });
+  try {
+    const result = generateQr('valid input');
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+      assert.equal(result.code, 'generation');
+      assert.equal(result.message, 'QR을 만들지 못했어요. 내용을 확인하고 다시 시도해 주세요.');
+      assert.equal('svg' in result, false);
+    }
+  } finally { mocked.mock.restore(); }
 });

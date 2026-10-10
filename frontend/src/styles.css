@@ -1,0 +1,30 @@
+:root {
+  --font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
+  font-family: var(--font-family);
+  color: #191f28;
+  background: #f9fafb;
+  font-synthesis: none;
+  --text: #191f28;
+  --muted: #6b7684;
+  --subtle: #8b95a1;
+  --blue: #3182f6;
+  --blue-light: #e8f3ff;
+  --surface: #fff;
+  --field: #f2f4f6;
+  --line: #e5e8eb;
+  --error: #f04452;
+  --error-light: #fff0f1;
+  --gap: 24px;
+  --card-padding: 32px;
+  --radius: 24px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 1120px; }
+button, input, textarea { font: inherit; }
+button { border: 0; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .48; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+h1, h2, h3, p { margin: 0; }
+input, textarea { color: var(--text); }
+input::-ms-reveal { display: none; }
+textarea { resize: vertical; }

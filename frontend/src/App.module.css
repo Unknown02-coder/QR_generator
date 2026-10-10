@@ -1,0 +1,70 @@
+.app { width: calc(100% - 160px); max-width: 1200px; margin: 0 auto; padding-bottom: 40px; }
+.header { height: 100px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.header button { background: transparent; color: var(--muted); font-size: 14px; padding: 12px; }
+.header .brand { color: var(--text); font-size: 18px; font-weight: 700; padding-left: 0; }
+.header nav { display: flex; gap: 44px; }
+.heading { padding: 44px 0 46px; }
+.heading h1 { font-size: 36px; line-height: 1.45; font-weight: 700; letter-spacing: -1px; }
+.heading p { margin-top: 14px; font-size: 16px; color: var(--muted); line-height: 1.6; }
+.columns { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: stretch; }
+.card { padding: var(--card-padding); border-radius: var(--radius); background: var(--surface); min-height: 650px; min-width: 0; }
+.card h2 { font-size: 22px; line-height: 1.5; }
+.tabs { display: flex; gap: 8px; padding: 24px 0 20px; border-bottom: 1px solid var(--line); }
+.tabs button { flex: 1; border-radius: 12px; background: var(--field); color: var(--muted); height: 44px; font-size: 14px; white-space: nowrap; }
+.tabs button[aria-selected='true'] { color: var(--blue); background: var(--blue-light); }
+.form { padding-top: 24px; }
+.field { margin-bottom: 20px; }
+.field label { display: block; font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+.inputWrap { position: relative; }
+.field input, .field textarea { display: block; width: 100%; background: var(--field); border: 1px solid transparent; border-radius: 14px; padding: 16px; line-height: 24px; }
+.field input { height: 56px; }
+.field input[type='password'], .field input[name='password'] { padding-right: 76px; }
+.field input[aria-invalid='true'], .field textarea[aria-invalid='true'] { border-color: var(--error); background: var(--error-light); }
+.fieldError { color: var(--error); font-size: 14px; margin-top: 8px; line-height: 1.6; }
+.toggle { position: absolute; right: 12px; top: 10px; padding: 8px 10px; background: transparent; color: var(--blue); font-size: 14px; border-radius: 8px; }
+.hint { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.tip { background: var(--blue-light); border-radius: 14px; padding: 16px; margin-top: 32px; font-size: 14px; }
+.tip strong { color: var(--blue); }
+.tip p { margin-top: 8px; color: var(--muted); line-height: 1.6; }
+.security { border: 0; margin: 0 0 24px; padding: 0; display: flex; gap: 12px; }
+.security legend { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+.security label { flex: 1; padding: 16px 12px; background: var(--field); border-radius: 12px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.security label:has(input:checked) { color: var(--blue); background: var(--blue-light); }
+.security input { accent-color: var(--blue); }
+.nameFields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.previewHint { color: var(--muted); margin: 24px 0 18px; font-size: 14px; }
+.preview { border-radius: 20px; background: var(--field); height: 320px; display: flex; justify-content: center; align-items: center; text-align: center; padding: 28px; }
+.preview img { display: block; image-rendering: pixelated; background: white; }
+.preview h3 { font-size: 20px; margin-bottom: 16px; }
+.preview p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.preview button { margin-top: 16px; padding: 10px 16px; }
+.summary { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 20px 0 16px; overflow-wrap: anywhere; }
+.actions { display: grid; grid-template-columns: 3fr 2fr; gap: 12px; }
+.primary, .secondary, .github { min-height: 56px; border-radius: 12px; font-weight: 700; padding: 12px 20px; }
+.primary { color: white; background: var(--blue); }
+.secondary { color: var(--blue); background: var(--blue-light); }
+.small { font-size: 13px; color: var(--subtle); margin-top: 18px; line-height: 1.7; }
+.footer { color: var(--subtle); font-size: 13px; margin-top: 18px; }
+.dialog { width: 600px; border: 0; border-radius: var(--radius); padding: 40px; color: var(--text); max-height: calc(100vh - 48px); overflow-y: auto; }
+.dialog::backdrop { background: rgb(25 31 40 / 38%); }
+.dialog h2 { font-size: 28px; line-height: 1.5; margin-bottom: 16px; }
+.dialog > p { margin-bottom: 12px; color: var(--muted); line-height: 1.6; }
+.close { position: absolute; right: 28px; top: 20px; border-radius: 12px; padding: 10px; color: var(--muted); background: var(--field); }
+.formats { display: grid; gap: 12px; margin: 28px 0 34px; }
+.formats button { background: var(--field); border-radius: 14px; padding: 20px 24px; text-align: left; color: var(--text); }
+.formats strong { display: block; font-size: 18px; margin-bottom: 8px; }
+.formats span { color: var(--muted); font-size: 14px; }
+.formats .selectedFormat { background: var(--blue-light); color: var(--blue); }
+.errorBox { border-radius: 12px; padding: 16px; background: var(--error-light); margin-bottom: 18px; }
+.errorBox p { color: var(--error); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+.loginCard { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; background: white; border-radius: var(--radius); padding: 64px; }
+.loginIllustration { border-radius: 20px; padding: 60px 32px 40px; background: var(--blue-light); text-align: center; }
+.loginIllustration img { background: white; margin: 0 auto 48px; }
+.loginIllustration h2 { font-size: 20px; margin-bottom: 12px; }
+.loginIllustration p, .loginContent p { color: var(--muted); line-height: 1.6; font-size: 14px; }
+.qrSymbol { display: block; font-size: 120px; margin-bottom: 32px; line-height: 1.2; }
+.loginContent h2 { font-size: 28px; margin-bottom: 16px; }
+.loginContent h3 { font-size: 16px; margin-top: 28px; }
+.loginContent .github { width: 100%; background: var(--text); color: white; margin: 32px 0 16px; }
+.loginContent .secondary { width: 100%; margin-top: 20px; }
+.loginContent ul { padding-left: 20px; color: var(--muted); font-size: 14px; line-height: 2; margin-bottom: 24px; }
