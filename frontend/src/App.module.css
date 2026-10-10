@@ -3,6 +3,7 @@
 .header button { background: transparent; color: var(--muted); font-size: 14px; padding: 12px; }
 .header .brand { color: var(--text); font-size: 18px; font-weight: 700; padding-left: 0; }
 .header nav { display: flex; gap: 44px; }
+.header button[aria-current='page'] { color: var(--blue); font-weight: 700; }
 .heading { padding: 44px 0 46px; }
 .heading h1 { font-size: 36px; line-height: 1.45; font-weight: 700; letter-spacing: -1px; }
 .heading p { margin-top: 14px; font-size: 16px; color: var(--muted); line-height: 1.6; }
@@ -40,6 +41,7 @@
 .preview button { margin-top: 16px; padding: 10px 16px; }
 .summary { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 20px 0 16px; overflow-wrap: anywhere; }
 .actions { display: grid; grid-template-columns: 3fr 2fr; gap: 12px; }
+.accountAction button { width: 100%; }
 .primary, .secondary, .github { min-height: 56px; border-radius: 12px; font-weight: 700; padding: 12px 20px; }
 .primary { color: white; background: var(--blue); }
 .secondary { color: var(--blue); background: var(--blue-light); }
@@ -57,14 +59,19 @@
 .formats .selectedFormat { background: var(--blue-light); color: var(--blue); }
 .errorBox { border-radius: 12px; padding: 16px; background: var(--error-light); margin-bottom: 18px; }
 .errorBox p { color: var(--error); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
-.loginCard { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; background: white; border-radius: var(--radius); padding: 64px; }
-.loginIllustration { border-radius: 20px; padding: 60px 32px 40px; background: var(--blue-light); text-align: center; }
-.loginIllustration img { background: white; margin: 0 auto 48px; }
+.loginCard { display: grid; grid-template-columns: 1.08fr 1fr; gap: 8%; background: var(--surface); border-radius: var(--radius); padding: 64px; align-items: start; }
+.loginIllustration { border-radius: 20px; padding: 88px 40px 40px; background: var(--blue-light); text-align: left; min-height: 418px; }
+.illustrationQr { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 48px; min-height: 170px; }
+.illustrationQr img { background: var(--surface); display: block; border-radius: 10px; }
+.illustrationQr span { position: absolute; left: 66%; bottom: 20px; background: var(--surface); color: var(--blue); font-size: 16px; font-weight: 700; white-space: nowrap; padding: 16px 24px; border-radius: 14px; }
 .loginIllustration h2 { font-size: 20px; margin-bottom: 12px; }
 .loginIllustration p, .loginContent p { color: var(--muted); line-height: 1.6; font-size: 14px; }
-.qrSymbol { display: block; font-size: 120px; margin-bottom: 32px; line-height: 1.2; }
 .loginContent h2 { font-size: 28px; margin-bottom: 16px; }
 .loginContent h3 { font-size: 16px; margin-top: 28px; }
 .loginContent .github { width: 100%; background: var(--text); color: white; margin: 32px 0 16px; }
-.loginContent .secondary { width: 100%; margin-top: 20px; }
+.loginContent .secondary { width: 100%; }
+.loginContent .hint { margin-top: 8px; font-size: 13px; }
+.loginError { background: var(--error-light); border-radius: 14px; padding: 16px; margin-top: 20px; }
+.loginError strong { color: var(--error); font-size: 14px; }
+.loginError p { margin-top: 6px; font-size: 13px; }
 .loginContent ul { padding-left: 20px; color: var(--muted); font-size: 14px; line-height: 2; margin-bottom: 24px; }

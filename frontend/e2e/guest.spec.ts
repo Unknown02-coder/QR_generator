@@ -125,19 +125,24 @@ test('login guide offers guest entry and retains original input', async ({ page 
 });
 
 test('generation failure clears preview and can retry, tabs support keyboard navigation', async ({ page }) => {
-  await page.route('**/src/qr/generate.ts', async route => {
+  let injectedCalls = 0;
+  await page.route('**/src/qr/generate.*', async route => {
+    injectedCalls++;
     const response = await route.fetch();
     const body = await response.text();
     const call = /QRCode\.create\(payload, \{ errorCorrectionLevel: ["']M["'] \}\)/;
     expect(body).toMatch(call);
-    const injected = 'let failOnce = true;\n' + body.replace(call, '(failOnce ? (() => { failOnce = false; throw new Error("test failure"); })() : $&)');
+    // Target the input, leaving the login illustration and StrictMode calls deterministic.
+    const injected = body.replace(call, '(payload === "https://example.com/generation-failure" && !globalThis.__qrAllowRetry ? (() => { throw new Error("test failure"); })() : $&)');
     await route.fulfill({ response, body: injected });
   });
   await page.goto('/');
-  await page.getByRole('textbox', { name: '웹 주소', exact: true }).fill('https://example.com');
+  expect(injectedCalls).toBeGreaterThan(0);
+  await page.getByRole('textbox', { name: '웹 주소', exact: true }).fill('https://example.com/generation-failure');
   await expect(page.getByText('QR을 만들지 못했어요. 내용을 확인하고 다시 시도해 주세요.')).toBeVisible();
   await expect(page.getByRole('img')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'QR 다운로드', exact: true })).toBeDisabled();
+  await page.evaluate(() => Object.assign(window, { __qrAllowRetry: true }));
   await page.getByRole('button', { name: '다시 생성', exact: true }).click();
   await expect(page.getByRole('img', { name: '웹 주소 QR 미리보기' })).toBeVisible();
   await page.getByRole('tab', { name: '웹 주소', exact: true }).focus();
@@ -145,5 +150,28 @@ test('generation failure clears preview and can retry, tabs support keyboard nav
   await expect(page.getByRole('tab', { name: '와이파이', exact: true })).toHaveAttribute('aria-selected', 'true');
   await expect(page.getByRole('tab', { name: '와이파이', exact: true })).toBeFocused();
   await page.keyboard.press('ArrowLeft');
-  await expect(page.getByRole('textbox', { name: '웹 주소', exact: true })).toHaveValue('https://example.com');
+  await expect(page.getByRole('textbox', { name: '웹 주소', exact: true })).toHaveValue('https://example.com/generation-failure');
+});
+
+test('every input type shows its field error and blocks stale QR actions', async ({ page }) => {
+  await page.goto('/');
+  const cases = [
+    { tab: '웹 주소', label: '웹 주소', value: 'example.com', error: '주소 앞에 http:// 또는 https://를 포함해 주세요.' },
+    { tab: '와이파이', label: '네트워크 이름', value: '', error: '네트워크 이름을 입력해 주세요.' },
+    { tab: '연락처', label: '성', value: '', error: '성과 이름 중 하나는 입력해 주세요.' },
+    { tab: '텍스트', label: '내용', value: ' ', error: '내용을 입력해 주세요.' },
+    { tab: '이메일', label: '받는 이메일', value: 'hello', error: '올바른 이메일 주소를 입력해 주세요.' },
+  ];
+  for (const c of cases) {
+    await page.getByRole('tab', { name: c.tab, exact: true }).click();
+    const field = page.getByLabel(c.label, { exact: true }).and(page.locator('input, textarea'));
+    await field.fill('trigger');
+    await field.fill(c.value);
+    await expect(page.getByText(c.error, { exact: true })).toBeVisible();
+    await expect(field).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByRole('img')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'QR 다운로드', exact: true })).toBeDisabled();
+    await expect(page.getByRole('button', { name: '로그인하고 저장', exact: true })).toBeDisabled();
+    await page.screenshot({ path: `../.cache/error-${c.tab}.png`, fullPage: true });
+  }
 });

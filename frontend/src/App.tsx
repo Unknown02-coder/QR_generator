@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import { QrForm } from './components/QrForm.js';
 import { DownloadDialog, type DownloadTarget } from './components/DownloadDialog.js';
+import { Header } from './components/Header.js';
+import { LoginPage } from './components/LoginPage.js';
+import type { SaveTarget } from './account/types.js';
 import { buildPayload, type QrInput, type QrType } from './qr/payload.js';
 import { generateQr } from './qr/generate.js';
 import styles from './App.module.css';
@@ -21,14 +24,16 @@ const initialInputs: InputMap = {
   EMAIL: { type: 'EMAIL', recipient: '', subject: '', body: '' },
 };
 
-export function App() {
-  const [active, setActive] = useState<QrType>('URL');
-  const [inputs, setInputs] = useState(initialInputs);
+type AppProps = { initialInput?: QrInput; account?: { onSave: (target: SaveTarget) => void; onMyQr: () => void; onLogout: () => void }; loginPreview?: { enabled: boolean; onLogin: (target?: SaveTarget) => void } };
+export function App({ initialInput, account, loginPreview }: AppProps = {}) {
+  const [active, setActive] = useState<QrType>(initialInput?.type || 'URL');
+  const [inputs, setInputs] = useState(() => initialInput ? { ...initialInputs, [initialInput.type]: initialInput } : initialInputs);
   const [touched, setTouched] = useState<Partial<Record<QrType, boolean>>>({});
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [screen, setScreen] = useState<'generator' | 'login'>('generator');
   const [downloadTarget, setDownloadTarget] = useState<DownloadTarget | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const [saveIntent, setSaveIntent] = useState(false);
   const input = inputs[active];
   const conversion = useMemo(() => buildPayload(input), [input]);
   const qr = useMemo(() => conversion.ok ? generateQr(conversion.payload) : null, [conversion, attempt]);
@@ -44,13 +49,10 @@ export function App() {
     setActive(type);
     setPasswordVisible(false);
   }
-  function showLogin() { setScreen('login'); setPasswordVisible(false); }
+  function showLogin(forSave = false) { setSaveIntent(forSave); setScreen('login'); setPasswordVisible(false); }
 
   return <div className={styles.app}>
-    <header className={styles.header}>
-      <button className={styles.brand} onClick={() => setScreen('generator')}>QR 만들기</button>
-      <nav aria-label="주 메뉴"><button onClick={showLogin}>GitHub 로그인</button><button onClick={showLogin}>내 QR</button></nav>
-    </header>
+    <Header current={screen} loggedIn={!!account} onGenerator={() => setScreen('generator')} onMyQr={() => account ? account.onMyQr() : showLogin()} onAuth={() => account ? account.onLogout() : showLogin()} />
     <main>
       {screen === 'generator' ? <>
         <section className={styles.heading}><h1>필요한 QR을 빠르게 만들어요</h1><p>로그인 없이 바로 다운로드하거나, 로그인해 내 QR에 보관하세요.</p></section>
@@ -83,30 +85,17 @@ export function App() {
               </div>}
             </div>
             <p className={styles.summary}>{qr?.ok ? `${currentType.label} · ${summary}` : '오류를 수정하면 미리보기가 나타나요.'}</p>
-            <div className={styles.actions}>
-              <button className={styles.primary} disabled={!qr?.ok} onClick={() => { if (qr?.ok) setDownloadTarget({ type: active, qr }); }}>QR 다운로드</button>
-              <button className={styles.secondary} disabled={!qr?.ok} onClick={showLogin}>로그인하고 저장</button>
+            <div className={account ? styles.accountAction : styles.actions}>
+              {account ? <button className={styles.primary} disabled={!qr?.ok} onClick={() => { if (conversion.ok && qr?.ok) account.onSave({ type: active, payload: conversion.payload }); }}>QR 저장하기</button> : <>
+                <button className={styles.primary} disabled={!qr?.ok} onClick={() => { if (qr?.ok) setDownloadTarget({ type: active, qr }); }}>QR 다운로드</button>
+                <button className={styles.secondary} disabled={!qr?.ok} onClick={() => showLogin(true)}>로그인하고 저장</button>
+              </>}
             </div>
-            <p className={styles.small}>비로그인 사용 · 계정에 보관하지 않아요. QR은 여러 번 스캔할 수 있어요.</p>
+            <p className={styles.small}>{account ? '내 QR에 저장한 뒤 PNG·SVG로 다시 다운로드할 수 있어요.' : '비로그인 사용 · 계정에 보관하지 않아요. QR은 여러 번 스캔할 수 있어요.'}</p>
           </section>
         </div>
-      </> : <>
-        <section className={styles.heading}><h1>로그인하거나 바로 사용하세요</h1><p>로그인하면 내 QR에 보관할 수 있고, 비로그인으로도 바로 다운로드할 수 있어요.</p></section>
-        <section className={styles.loginCard}>
-          <div className={styles.loginIllustration}>
-            {qr?.ok ? <img width="160" height="160" src={`data:image/svg+xml,${encodeURIComponent(qr.svg)}`} alt="현재 QR" /> : <span className={styles.qrSymbol} aria-hidden="true">▦</span>}
-            <h2>먼저 저장하고, 필요할 때 다운로드</h2><p>PNG·SVG 파일을 언제든 다시 받을 수 있어요.</p>
-          </div>
-          <div className={styles.loginContent}><h2>GitHub로 시작하기</h2><p>별도 비밀번호를 만들지 않고 로그인할 수 있어요.</p>
-            <button className={styles.github} disabled aria-describedby="account-status">GitHub로 계속하기</button>
-            <p id="account-status" className={styles.hint}>계정 보관은 준비 중이에요. 지금은 비로그인으로 QR을 다운로드할 수 있어요.</p>
-            <button className={styles.secondary} onClick={() => setScreen('generator')}>비로그인으로 사용하기</button>
-            <h3>로그인하면 사용할 수 있어요</h3><ul><li>내가 저장한 QR 목록 보기</li><li>저장한 QR을 PNG 또는 SVG로 다운로드</li><li>필요 없는 QR 삭제</li></ul>
-            <p className={styles.hint}>새로고침하면 입력은 사라져요. QR은 여러 번 스캔할 수 있어요.</p>
-          </div>
-        </section>
-      </>}
-      <p className={styles.footer}>QR에는 입력한 내용이 그대로 담겨요. 공유 전 내용을 확인해 주세요.</p>
+      </> : <LoginPage qrSvg={qr?.ok ? qr.svg : undefined} enabled={loginPreview?.enabled} onLogin={() => { loginPreview?.onLogin(saveIntent && conversion.ok ? { type: active, payload: conversion.payload } : undefined); if (loginPreview?.enabled) setScreen('generator'); }} onGuest={() => setScreen('generator')} />}
+      <p className={styles.footer}>{screen === 'login' ? '계정에 보관하려면 GitHub 로그인이 필요해요. 비로그인 다운로드도 가능해요.' : 'QR에는 입력한 내용이 그대로 담겨요. 공유 전 내용을 확인해 주세요.'}</p>
     </main>
     {downloadTarget && <DownloadDialog target={downloadTarget} onClose={() => setDownloadTarget(null)} />}
   </div>;
