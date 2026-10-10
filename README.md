@@ -14,6 +14,29 @@ Figma에 전체 시안을 옮길 때는 **로컬 SVG 수정본 하나**를 사�
 
 비로그인도 PNG·SVG를 바로 다운로드한다. 계정에 보관하지 않으며, 받은 파일은 여러 번 스캔할 수 있다. 다운로드 형식 선택 시 PNG는 1024×1024픽셀, SVG는 벡터 파일로 준비한다. 새로고침하면 미저장 입력은 사라진다.
 
+## 다른 컴퓨터에서 이어 작업하기
+
+최신 작업은 **`codex/url-qr-core` 브랜치**에 있다. `main`과 병합 전이므로 아래 명령으로 해당 브랜치를 받는다. Git과 Node.js를 설치해야 하며 GitHub Actions와 같은 Node.js 24 환경으로 확인했다.
+
+```sh
+git clone --branch codex/url-qr-core https://github.com/Unknown02-coder/QR_generator.git
+cd QR_generator
+npm ci
+npm run dev
+```
+
+이미 저장소를 받은 컴퓨터에서는 미커밋 작업을 먼저 확인한 뒤 다음 명령으로 갱신한다.
+
+```sh
+git status
+git fetch origin
+git switch codex/url-qr-core
+git pull --ff-only origin codex/url-qr-core
+npm ci
+```
+
+현재 상태·다음 작업·검사 방법은 [작업 인수인계](docs/작업인수인계.md)에 정리했다. 전체 화면 SVG와 API 명세도 저장소에 있어 기존 컴퓨터의 Downloads 파일이나 노션 연결 없이 읽을 수 있다. 실제 프론트엔드 코드는 `frontend/`에 있다.
+
 ## 설치와 검사
 
 Node.js 22.12 이상에서 저장소 루트 기준. [Vite 실행 조건](https://vite.dev/guide/)을 따른다.
