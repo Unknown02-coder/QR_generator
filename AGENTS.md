@@ -6,6 +6,11 @@
 - 화면 구성과 문구는 [확정된 Figma 시안](https://www.figma.com/design/wqXlg7klul1mIGEdY89cxN/)을 따른다.
 - 두 자료가 충돌하면 임의로 결정하지 말고 차이를 사용자에게 알린다.
 
+## Figma 시안 작업
+
+- 화면 시안을 만들거나 수정할 때는 [`harness/skills/figma-local-svg/SKILL.md`](harness/skills/figma-local-svg/SKILL.md)를 읽고 따른다.
+- 결과물은 로컬 SVG 파일로 만든다. 사용자가 이를 Figma에 직접 복사해 붙여넣는다.
+
 ## 기술 선택
 
 - 프론트엔드: React, TypeScript, Vite.

@@ -1,0 +1,25 @@
+:root {
+  font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
+  color: #191f28;
+  background: #f9fafb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --blue: #3182f6;
+  --blue-soft: #e8f3ff;
+  --ink: #191f28;
+  --muted: #6b7684;
+  --subtle: #8b95a1;
+  --line: #e5e8eb;
+  --surface: #fff;
+  --field: #f2f4f6;
+  --danger: #f04452;
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 1120px; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+:focus-visible { outline: 3px solid #8bc0ff; outline-offset: 2px; }

@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1200" viewBox="0 0 1440 1200" role="img" aria-labelledby="title desc">
+  <title id="title">내 QR 목록 페이지네이션 데스크톱 시안</title>
+  <desc id="desc">저장한 QR 23개 중 첫 페이지 5개를 보여주며, 이전 버튼은 비활성화되고 1페이지가 선택된 상태입니다.</desc>
+  <defs>
+    <g id="qr-mark" fill="#191F28">
+      <path d="M0 0h22v22H0zm4 4v14h14V4zm4 4h6v6H8zM34 0h22v22H34zm4 4v14h14V4zm4 4h6v6h-6zM0 34h22v22H0zm4 4v14h14V38zm4 4h6v6H8z" fill-rule="evenodd"/>
+      <path d="M27 2h4v5h-4zM25 12h5v4h-5zM28 20h4v7h-4zM38 27h6v5h-6zM48 27h8v5h-8zM27 34h6v5h-6zM36 37h5v7h-5zM46 35h4v6h-4zM53 39h4v5h-4zM27 47h4v9h-4zM34 50h5v6h-5zM43 45h5v5h-5zM51 50h5v6h-5z"/>
+    </g>
+  </defs>
+
+  <rect width="1440" height="1200" fill="#F8F9FB"/>
+  <g font-family="Pretendard, Noto Sans KR, Arial, sans-serif" fill="#191F28">
+    <text x="120" y="69" font-size="18" font-weight="700">HandmadeQR</text>
+    <text x="1010" y="69" font-size="14" fill="#6B7684">QR 만들기</text>
+    <text x="1120" y="69" font-size="14" font-weight="700" fill="#3182F6">내 QR</text>
+    <text x="1210" y="69" font-size="14" fill="#6B7684">로그아웃</text>
+    <path d="M120 96H1320" stroke="#E5E8EB"/>
+
+    <text x="120" y="174" font-size="36" font-weight="700">내 QR</text>
+    <text x="120" y="210" font-size="16" fill="#6B7684">저장한 QR을 찾아보고, 다운로드하거나 삭제할 수 있어요.</text>
+    <path d="M120 250H1320" stroke="#E5E8EB"/>
+    <text x="120" y="305" font-size="21" font-weight="700">저장한 QR 23개</text>
+    <rect x="1132" y="272" width="188" height="50" rx="10" fill="#3182F6"/>
+    <text x="1226" y="303" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">+ 새 QR 만들기</text>
+
+    <rect x="120" y="345" width="1200" height="735" rx="24" fill="#FFFFFF"/>
+    <rect x="152" y="373" width="60" height="34" rx="17" fill="#E8F3FF"/>
+    <text x="182" y="395" text-anchor="middle" font-size="13" font-weight="700" fill="#3182F6">전체</text>
+    <rect x="220" y="373" width="89" height="34" rx="17" fill="#F2F4F6"/>
+    <text x="264" y="395" text-anchor="middle" font-size="13" fill="#6B7684">웹 주소</text>
+    <rect x="317" y="373" width="89" height="34" rx="17" fill="#F2F4F6"/>
+    <text x="361" y="395" text-anchor="middle" font-size="13" fill="#6B7684">와이파이</text>
+    <rect x="414" y="373" width="89" height="34" rx="17" fill="#F2F4F6"/>
+    <text x="458" y="395" text-anchor="middle" font-size="13" fill="#6B7684">연락처</text>
+    <rect x="511" y="373" width="76" height="34" rx="17" fill="#F2F4F6"/>
+    <text x="549" y="395" text-anchor="middle" font-size="13" fill="#6B7684">텍스트</text>
+    <rect x="595" y="373" width="89" height="34" rx="17" fill="#F2F4F6"/>
+    <text x="639" y="395" text-anchor="middle" font-size="13" fill="#6B7684">이메일</text>
+    <path d="M152 425H1288" stroke="#E5E8EB"/>
+
+    <g id="saved-qr-row-1">
+      <use href="#qr-mark" x="168" y="450"/>
+      <rect x="255" y="447" width="72" height="27" rx="13.5" fill="#E8F3FF"/>
+      <text x="291" y="465" text-anchor="middle" font-size="12" font-weight="700" fill="#3182F6">웹 주소</text>
+      <text x="255" y="497" font-size="17" font-weight="700">행사 안내</text>
+      <text x="255" y="521" font-size="13" fill="#8B95A1">example.com</text>
+      <text x="835" y="492" font-size="13" fill="#8B95A1">2026.10.10</text>
+      <rect x="1000" y="463" width="132" height="44" rx="9" fill="#E8F3FF"/>
+      <text x="1066" y="490" text-anchor="middle" font-size="14" font-weight="700" fill="#3182F6">다운로드</text>
+      <rect x="1144" y="463" width="132" height="44" rx="9" fill="#F2F4F6"/>
+      <text x="1210" y="490" text-anchor="middle" font-size="14" fill="#4E5968">QR 삭제</text>
+      <path d="M152 544H1288" stroke="#E5E8EB"/>
+    </g>
+
+    <g id="saved-qr-row-2" transform="translate(0 114)">
+      <use href="#qr-mark" x="168" y="450"/>
+      <rect x="255" y="447" width="72" height="27" rx="13.5" fill="#E8F3FF"/>
+      <text x="291" y="465" text-anchor="middle" font-size="12" font-weight="700" fill="#3182F6">와이파이</text>
+      <text x="255" y="497" font-size="17" font-weight="700">사무실 와이파이</text>
+      <text x="255" y="521" font-size="13" fill="#8B95A1">네트워크 이름: OFFICE_WIFI</text>
+      <text x="835" y="492" font-size="13" fill="#8B95A1">2026.10.08</text>
+      <rect x="1000" y="463" width="132" height="44" rx="9" fill="#E8F3FF"/>
+      <text x="1066" y="490" text-anchor="middle" font-size="14" font-weight="700" fill="#3182F6">다운로드</text>
+      <rect x="1144" y="463" width="132" height="44" rx="9" fill="#F2F4F6"/>
+      <text x="1210" y="490" text-anchor="middle" font-size="14" fill="#4E5968">QR 삭제</text>
+      <path d="M152 544H1288" stroke="#E5E8EB"/>
+    </g>
+
+    <g id="saved-qr-row-3" transform="translate(0 228)">
+      <use href="#qr-mark" x="168" y="450"/>
+      <rect x="255" y="447" width="72" height="27" rx="13.5" fill="#E8F3FF"/>
+      <text x="291" y="465" text-anchor="middle" font-size="12" font-weight="700" fill="#3182F6">연락처</text>
+      <text x="255" y="497" font-size="17" font-weight="700">김 민지</text>
+      <text x="255" y="521" font-size="13" fill="#8B95A1">연락처 정보</text>
+      <text x="835" y="492" font-size="13" fill="#8B95A1">2026.10.05</text>
+      <rect x="1000" y="463" width="132" height="44" rx="9" fill="#E8F3FF"/>
+      <text x="1066" y="490" text-anchor="middle" font-size="14" font-weight="700" fill="#3182F6">다운로드</text>
+      <rect x="1144" y="463" width="132" height="44" rx="9" fill="#F2F4F6"/>
+      <text x="1210" y="490" text-anchor="middle" font-size="14" fill="#4E5968">QR 삭제</text>
+      <path d="M152 544H1288" stroke="#E5E8EB"/>
+    </g>
+
+    <g id="saved-qr-row-4" transform="translate(0 342)">
+      <use href="#qr-mark" x="168" y="450"/>
+      <rect x="255" y="447" width="60" height="27" rx="13.5" fill="#E8F3FF"/>
+      <text x="285" y="465" text-anchor="middle" font-size="12" font-weight="700" fill="#3182F6">텍스트</text>
+      <text x="255" y="497" font-size="17" font-weight="700">현장 안내</text>
+      <text x="255" y="521" font-size="13" fill="#8B95A1">안내 문구</text>
+      <text x="835" y="492" font-size="13" fill="#8B95A1">2026.10.03</text>
+      <rect x="1000" y="463" width="132" height="44" rx="9" fill="#E8F3FF"/>
+      <text x="1066" y="490" text-anchor="middle" font-size="14" font-weight="700" fill="#3182F6">다운로드</text>
+      <rect x="1144" y="463" width="132" height="44" rx="9" fill="#F2F4F6"/>
+      <text x="1210" y="490" text-anchor="middle" font-size="14" fill="#4E5968">QR 삭제</text>
+      <path d="M152 544H1288" stroke="#E5E8EB"/>
+    </g>
+
+    <g id="saved-qr-row-5" transform="translate(0 456)">
+      <use href="#qr-mark" x="168" y="450"/>
+      <rect x="255" y="447" width="72" height="27" rx="13.5" fill="#E8F3FF"/>
+      <text x="291" y="465" text-anchor="middle" font-size="12" font-weight="700" fill="#3182F6">이메일</text>
+      <text x="255" y="497" font-size="17" font-weight="700">문의하기</text>
+      <text x="255" y="521" font-size="13" fill="#8B95A1">메일 작성 화면</text>
+      <text x="835" y="492" font-size="13" fill="#8B95A1">2026.10.01</text>
+      <rect x="1000" y="463" width="132" height="44" rx="9" fill="#E8F3FF"/>
+      <text x="1066" y="490" text-anchor="middle" font-size="14" font-weight="700" fill="#3182F6">다운로드</text>
+      <rect x="1144" y="463" width="132" height="44" rx="9" fill="#F2F4F6"/>
+      <text x="1210" y="490" text-anchor="middle" font-size="14" fill="#4E5968">QR 삭제</text>
+      <path d="M152 544H1288" stroke="#E5E8EB"/>
+    </g>
+
+    <g id="pagination" aria-label="페이지네이션">
+      <text x="152" y="1045" font-size="14" fill="#6B7684">1–5 / 23개</text>
+      <rect x="783" y="1005" width="86" height="48" rx="10" fill="#F2F4F6"/>
+      <text x="826" y="1035" text-anchor="middle" font-size="14" fill="#B0B8C1">이전</text>
+      <rect x="881" y="1005" width="48" height="48" rx="10" fill="#3182F6"/>
+      <text x="905" y="1035" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">1</text>
+      <rect x="937" y="1005" width="48" height="48" rx="10" fill="#FFFFFF" stroke="#E5E8EB"/>
+      <text x="961" y="1035" text-anchor="middle" font-size="15">2</text>
+      <rect x="993" y="1005" width="48" height="48" rx="10" fill="#FFFFFF" stroke="#E5E8EB"/>
+      <text x="1017" y="1035" text-anchor="middle" font-size="15">3</text>
+      <rect x="1049" y="1005" width="48" height="48" rx="10" fill="#FFFFFF" stroke="#E5E8EB"/>
+      <text x="1073" y="1035" text-anchor="middle" font-size="15">4</text>
+      <rect x="1105" y="1005" width="48" height="48" rx="10" fill="#FFFFFF" stroke="#E5E8EB"/>
+      <text x="1129" y="1035" text-anchor="middle" font-size="15">5</text>
+      <rect x="1165" y="1005" width="111" height="48" rx="10" fill="#FFFFFF" stroke="#E5E8EB"/>
+      <text x="1220" y="1035" text-anchor="middle" font-size="14" fill="#4E5968">다음</text>
+    </g>
+
+    <text x="120" y="1133" font-size="13" fill="#8B95A1">Wi-Fi 비밀번호와 연락처 상세 정보는 목록에 표시하지 않아요.</text>
+  </g>
+</svg>

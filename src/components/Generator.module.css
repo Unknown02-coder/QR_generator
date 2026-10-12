@@ -1,0 +1,38 @@
+.hero { margin: 56px 0 34px; }
+.hero h1 { margin: 0; font-size: 34px; line-height: 1.4; letter-spacing: -.05em; font-weight: 700; }
+.hero p { margin: 12px 0 0; font-size: 15px; color: var(--muted); }
+.columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+.card { min-height: 648px; padding: 32px; background: var(--surface); border-radius: 20px; }
+.card h2 { margin: 0; font-size: 20px; line-height: 28px; letter-spacing: -.035em; }
+.tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--line); padding: 24px 0 20px; }
+.tabs button { flex: 1; height: 44px; padding: 0 5px; border: 0; border-radius: 10px; background: var(--field); color: var(--muted); font-size: 13px; white-space: nowrap; }
+.tabs button.activeTab { background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+.fields { padding-top: 26px; display: grid; gap: 23px; align-content: start; }
+.field { min-width: 0; }
+.field label, .label { display: block; margin-bottom: 12px; font-size: 14px; font-weight: 700; }
+.fieldControl { position: relative; }
+.input { display: block; width: 100%; height: 54px; border: 1px solid transparent; border-radius: 10px; padding: 0 16px; background: var(--field); color: var(--ink); font-size: 15px; outline: none; }
+.input::placeholder { color: #a0a8b2; }
+.input:focus { border-color: var(--blue); background: #fff; }
+.input.invalid { border-color: var(--danger); }
+.textarea { min-height: 120px; height: auto; resize: vertical; padding: 16px; line-height: 1.6; }
+.error { color: var(--danger); margin: 9px 0 0; font-size: 13px; }
+.hint { color: var(--subtle); margin: 10px 0 0; font-size: 13px; line-height: 1.6; }
+.info { display: grid; gap: 10px; padding: 17px 18px; border-radius: 10px; background: var(--blue-soft); color: #335e91; font-size: 13px; line-height: 1.6; }
+.info strong { color: var(--blue); font-size: 14px; }
+.segmented { display: flex; width: 100%; background: var(--field); padding: 5px; border-radius: 10px; }
+.segmented button { flex: 1; border: 0; border-radius: 8px; background: transparent; color: var(--muted); padding: 11px; font-size: 14px; }
+.segmented button[aria-pressed="true"] { background: var(--blue-soft); color: var(--blue); font-weight: 700; }
+.reveal { position: absolute; right: 12px; top: 8px; height: 38px; padding: 0 10px; border: 0; background: transparent; color: var(--blue); font-size: 13px; }
+.nameRow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cardIntro { margin: 20px 0 16px; color: var(--muted); font-size: 14px; }
+.preview { height: 320px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: var(--field); }
+.placeholder { display: grid; gap: 10px; text-align: center; padding: 24px; }
+.placeholder strong { font-size: 18px; }
+.placeholder span { color: var(--muted); font-size: 13px; }
+.retry { justify-self: center; margin-top: 6px; padding: 10px 18px; border: 0; border-radius: 9px; background: var(--blue-soft); color: var(--blue); font-size: 13px; font-weight: 700; }
+.qrImage { width: 232px; height: 232px; display: block; image-rendering: pixelated; }
+.previewCaption { margin: 18px 0 16px; color: var(--muted); font-size: 13px; }
+.saveButton { width: 100%; height: 56px; border: 0; border-radius: 10px; background: var(--blue); color: white; font-weight: 700; font-size: 16px; }
+.saveButton:disabled { color: #a0a8b2; background: var(--field); }
+.footerNote { margin: 26px 0 0; color: var(--subtle); font-size: 13px; }

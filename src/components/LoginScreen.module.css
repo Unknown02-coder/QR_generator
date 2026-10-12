@@ -1,0 +1,24 @@
+.hero { margin: 56px 0 58px; }
+.hero h1 { margin: 0; font-size: 34px; letter-spacing: -.05em; line-height: 1.4; }
+.hero p { margin: 14px 0 0; color: var(--muted); font-size: 16px; }
+.card { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; min-height: 640px; padding: 64px; background: #fff; border-radius: 24px; }
+.illustration { background: var(--blue-soft); border-radius: 22px; padding: 72px 40px 42px; display: flex; flex-direction: column; justify-content: center; }
+.artRow { display: flex; align-items: flex-end; justify-content: center; margin-bottom: 54px; }
+.qrArt { display: block; width: 168px; height: 168px; padding: 17px; border-radius: 8px; background: #fff; }
+.artRow span { margin-left: 2px; margin-bottom: 5px; padding: 15px 20px; background: #fff; border-radius: 12px; color: var(--blue); font-weight: 700; white-space: nowrap; }
+.illustration h2 { font-size: 21px; line-height: 1.4; margin: 0 0 12px; letter-spacing: -.04em; }
+.illustration p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.content { padding: 0 0 0 8px; }
+.content h2 { font-size: 29px; margin: 0 0 17px; letter-spacing: -.04em; }
+.content > p { color: var(--muted); font-size: 14px; line-height: 1.9; margin: 0 0 18px; }
+.github, .guest { display: block; width: 100%; min-height: 56px; border: 0; border-radius: 11px; font-weight: 700; font-size: 16px; }
+.github { margin-top: 18px; color: #fff; background: var(--ink); }
+.github:disabled { opacity: .55; }
+.guest { margin-top: 14px; color: var(--blue); background: var(--blue-soft); }
+.content h3 { font-size: 16px; margin: 36px 0 12px; }
+.content ul { list-style: none; padding: 0; margin: 0; color: var(--muted); font-size: 14px; line-height: 2.25; }
+.content li::before { content: '·'; margin-right: 8px; }
+.content .footnote { margin-top: 26px; color: var(--subtle); font-size: 13px; }
+.status { color: var(--blue); background: var(--blue-soft); padding: 13px 16px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+.error { color: var(--danger); background: #fff0f1; padding: 13px 16px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+.serverNotice { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 14px 0 0; }

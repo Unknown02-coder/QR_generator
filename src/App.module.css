@@ -1,0 +1,8 @@
+.shell { min-height: 100vh; padding: 0 0 55px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.header { height: 100px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+.brand { font-size: 18px; font-weight: 800; color: var(--ink); background: none; border: 0; padding: 0; letter-spacing: -.03em; }
+.nav { display: flex; align-items: center; gap: 56px; }
+.nav button { border: 0; background: none; color: var(--muted); font-size: 14px; padding: 8px 0; }
+.nav button.selected { color: var(--blue); font-weight: 700; }
+.banner { background: var(--blue-soft); color: #335e91; padding: 14px 20px; border-radius: 10px; margin-top: 20px; font-size: 14px; }
