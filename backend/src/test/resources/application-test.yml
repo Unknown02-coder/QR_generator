@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:handmadeqr;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ''
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: test-client
+            client-secret: test-secret
