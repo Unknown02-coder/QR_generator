@@ -41,7 +41,8 @@ class OAuthSecurityTest {
         assertEquals("S256", params.getFirst("code_challenge_method"));
         assertNotNull(params.getFirst("code_challenge"));
         assertNotNull(params.getFirst("state"));
-        assertFalse(params.getOrDefault("scope", java.util.List.of()).contains("repo"));
+        String scope = params.getFirst("scope");
+        assertFalse(scope != null && java.util.Arrays.asList(scope.split("\\s+")).contains("repo"));
     }
 
     @Test

@@ -46,6 +46,16 @@ class GithubOAuth2UserServiceTest {
                 () -> new GithubOAuth2UserService(delegate, accounts).loadUser(mock(OAuth2UserRequest.class)));
     }
 
+    @Test
+    void missingSavedUserRejectsAuthentication() {
+        UserAccountRepository accounts = mock(UserAccountRepository.class);
+        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = ignored -> githubUser(Map.of("id", 42, "login", "alice"));
+        when(accounts.upsert(any())).thenThrow(new IllegalStateException("GitHub user was not saved"));
+
+        assertThrows(OAuth2AuthenticationException.class,
+                () -> new GithubOAuth2UserService(delegate, accounts).loadUser(mock(OAuth2UserRequest.class)));
+    }
+
     private OAuth2User githubUser(Map<String, Object> attributes) {
         return new DefaultOAuth2User(List.of(new SimpleGrantedAuthority("ROLE_USER")), attributes, "id");
     }

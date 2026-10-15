@@ -28,7 +28,7 @@ public class GithubOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2User user = delegate.loadUser(userRequest);
         try {
             accounts.upsert(GithubIdentity.from(user.getAttributes()));
-        } catch (IllegalArgumentException | DataAccessException error) {
+        } catch (IllegalArgumentException | IllegalStateException | DataAccessException error) {
             throw new OAuth2AuthenticationException(new OAuth2Error("github_user_unavailable"),
                     "GitHub user could not be saved", error);
         }
