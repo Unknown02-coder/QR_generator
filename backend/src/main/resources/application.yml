@@ -18,3 +18,5 @@ server:
         http-only: true
         same-site: lax
         secure: ${SESSION_COOKIE_SECURE:false}
+qr:
+  encryption-key: ${QR_ENCRYPTION_KEY}

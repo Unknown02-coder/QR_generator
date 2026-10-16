@@ -29,4 +29,9 @@ class BackendStartupTest {
                 UUID.randomUUID(), 4123L, "second"));
         assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM users WHERE github_id = 4123", Integer.class));
     }
+
+    @Test
+    void flywayCreatesSavedQrTable() {
+        assertEquals(0, jdbc.queryForObject("SELECT COUNT(*) FROM saved_qrs", Integer.class));
+    }
 }

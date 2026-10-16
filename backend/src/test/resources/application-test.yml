@@ -10,3 +10,5 @@ spring:
           github:
             client-id: test-client
             client-secret: test-secret
+qr:
+  encryption-key: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
