@@ -1,6 +1,6 @@
 # QR 만들기
 
-확정된 데스크톱 시안을 기준으로 한 QR 생성 웹앱입니다. URL, Wi-Fi, 연락처, 텍스트, 이메일 입력과 QR 미리보기를 로그인 없이 사용할 수 있습니다. Spring Boot 서버에는 GitHub 로그인, 사용자 식별, 세션, CSRF, 로그아웃이 구현돼 있습니다. QR 저장·목록·다운로드·삭제 API는 아직 구현 전입니다.
+확정된 데스크톱 시안을 기준으로 한 QR 생성 웹앱입니다. URL, Wi-Fi, 연락처, 텍스트, 이메일 입력과 QR 미리보기를 로그인 없이 사용할 수 있습니다. Spring Boot 서버에는 GitHub 로그인, 사용자 식별, 세션, CSRF, 로그아웃과 QR 저장·목록·썸네일 조회가 구현돼 있습니다. QR 다운로드·삭제 API는 아직 구현 전입니다.
 
 ## 로컬 실행
 
@@ -17,6 +17,9 @@ GitHub에서 OAuth App을 만들고 **Authorization callback URL**을 `http://12
 | `DB_PASSWORD` | PostgreSQL 비밀번호 |
 | `APP_PUBLIC_BASE_URL` | OAuth 콜백의 서버 주소. 로컬 기본값: `http://127.0.0.1:8080` |
 | `SESSION_COOKIE_SECURE` | 로컬 HTTP에서는 `false`(기본값), 운영 HTTPS에서는 `true` |
+| `QR_ENCRYPTION_KEY` | Base64로 인코딩한 32바이트 키 (필수). QR 저장 데이터를 읽으려면 재시작 후에도 같은 키를 사용해야 함 |
+
+`QR_ENCRYPTION_KEY`는 한 번 생성해 서버의 비밀 환경 변수에 보관합니다. 예를 들어 PowerShell에서 `[Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(32))`로 값을 만들 수 있습니다. 키를 Git이나 프론트엔드 설정에 넣지 마세요.
 
 환경 변수를 설정한 터미널에서 서버를 실행합니다.
 
@@ -43,6 +46,8 @@ cd backend
 .\gradlew.bat clean test
 ```
 
+PostgreSQL 통합 검사는 Docker가 실행 중일 때 Testcontainers로 수행합니다. Docker가 없으면 해당 검사만 건너뜁니다.
+
 웹 화면 검사(프로젝트 루트):
 
 ```sh
@@ -54,7 +59,7 @@ npm run build
 
 ## 서버 연결 규약
 
-인증 API는 구현돼 있습니다. QR 관리 API는 프론트엔드 호출 계약만 정해졌고 아직 서버에 없습니다. 따라서 로그인 후에도 QR 저장·목록·재다운로드·삭제는 동작하지 않습니다.
+인증과 QR 저장·목록·썸네일 API가 구현돼 있습니다. 다운로드·삭제는 프론트엔드 호출 계약만 정해졌고 서버에는 아직 없습니다.
 
 | 요청 | 응답 또는 역할 | 상태 |
 | --- | --- | --- |
@@ -62,13 +67,13 @@ npm run build
 | `GET /api/csrf` | `{ "headerName": "X-CSRF-TOKEN", "token": "..." }` | 구현 |
 | `GET /oauth2/authorization/github` | GitHub 로그인 시작 | 구현 |
 | `POST /logout` | 세션 종료 | 구현 |
-| `GET /api/qrs?page=1&size=5&type=url` | `{ "items": [...], "total": 23, "page": 1, "pageSize": 5 }`; `type`은 선택값 | 예정 |
-| `POST /api/qrs` | `{ type, title, payload }`를 계정에 저장하고 저장한 QR 메타데이터 반환 | 예정 |
-| `GET /api/qrs/{id}/preview` | 해당 사용자의 QR 미리보기 이미지 | 예정 |
+| `GET /api/qrs?page=1&size=5&type=url` | `{ "items": [...], "total": 23, "page": 1, "pageSize": 5 }`; `type`은 선택값 | 구현 |
+| `POST /api/qrs` | `{ type, title, payload }`를 계정에 암호화해 저장하고 QR 메타데이터 반환 | 구현 |
+| `GET /api/qrs/{id}/preview` | 해당 사용자의 QR 미리보기 PNG | 구현 |
 | `GET /api/qrs/{id}/download?format=png` | 저장된 페이로드에서 PNG 또는 SVG 재생성 | 예정 |
 | `DELETE /api/qrs/{id}` | 소유권 확인 후 QR 삭제 | 예정 |
 
-인증된 호출은 세션 쿠키를 사용합니다. 변경 요청은 `/api/csrf`에서 받은 헤더를 보냅니다. 향후 QR 관리 API를 구현할 때 목록 응답의 `summary`에는 Wi-Fi 비밀번호와 연락처 상세 내용을 넣지 않고, 저장 페이로드 암호화와 소유권 검사를 서버에서 수행해야 합니다.
+인증된 호출은 세션 쿠키를 사용합니다. 변경 요청은 `/api/csrf`에서 받은 헤더를 보냅니다. 목록 응답의 `summary`는 유형별 고정 문구이며 Wi-Fi 비밀번호와 연락처 상세 내용을 포함하지 않습니다. 서버는 저장 페이로드를 암호화하고 소유권을 검사합니다.
 
 페이지 번호는 1부터 시작합니다. 서버는 최신 저장순으로 5건씩 반환해야 합니다. PNG는 1024×1024픽셀, SVG는 벡터여야 하고 둘 다 4모듈 이상의 흰 여백이 필요합니다.
 

@@ -1,8 +1,15 @@
 package com.handmadeqr.qr;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 public record QrInput(String type, String title, String payload, String summary) {
+
+    private static final Pattern WIFI_OPEN = Pattern.compile("WIFI:T:nopass;S:(?:\\\\.|[^;\\r\\n])+;;");
+    private static final Pattern WIFI_PASSWORD = Pattern.compile("WIFI:T:WPA;S:(?:\\\\.|[^;\\r\\n])+;P:(?:\\\\.|[^;\\r\\n])+;;");
+    private static final Pattern EMAIL = Pattern.compile("[^\\s@]+@[^\\s@]+\\.[^\\s@]+");
+    private static final Pattern CONTACT_NAME = Pattern.compile("(?:^|\\r\\n)FN:([^\\r\\n]+)(?:\\r\\n|$)");
 
     public static QrInput validated(String type, String title, String payload) {
         if (title == null || title.strip().isEmpty() || title.strip().length() > 80) {
@@ -10,6 +17,9 @@ public record QrInput(String type, String title, String payload, String summary)
         }
         if (payload == null || payload.isBlank()) {
             throw new IllegalArgumentException("QR payload is required");
+        }
+        if (payload.length() > 8192 || payload.getBytes(StandardCharsets.UTF_8).length > 8192) {
+            throw new IllegalArgumentException("QR payload is too large");
         }
         String summary = switch (type == null ? "" : type) {
             case "url" -> "웹 주소";
@@ -39,13 +49,13 @@ public record QrInput(String type, String title, String payload, String summary)
     private static boolean matchesType(String type, String payload) {
         return switch (type) {
             case "url" -> validUrl(payload);
-            case "wifi" -> (payload.startsWith("WIFI:T:WPA;") || payload.startsWith("WIFI:T:nopass;"))
-                    && payload.contains(";S:") && payload.endsWith(";;");
+            case "wifi" -> WIFI_OPEN.matcher(payload).matches() || WIFI_PASSWORD.matcher(payload).matches();
             case "contact" -> payload.startsWith("BEGIN:VCARD\r\nVERSION:3.0\r\n")
                     && payload.contains("\r\nN:") && payload.contains("\r\nFN:")
-                    && payload.endsWith("\r\nEND:VCARD");
+                    && payload.endsWith("\r\nEND:VCARD") && CONTACT_NAME.matcher(payload).find();
             case "text" -> true;
-            case "email" -> payload.startsWith("mailto:") && payload.substring(7).split("[?]", 2)[0].contains("@");
+            case "email" -> payload.startsWith("mailto:")
+                    && EMAIL.matcher(payload.substring(7).split("[?]", 2)[0]).matches();
             default -> false;
         };
     }
@@ -56,8 +66,11 @@ public record QrInput(String type, String title, String payload, String summary)
         }
         try {
             URI uri = URI.create(payload);
+            String authority = uri.getRawAuthority();
             return ("http".equalsIgnoreCase(uri.getScheme()) || "https".equalsIgnoreCase(uri.getScheme()))
-                    && uri.getRawAuthority() != null && !uri.getRawAuthority().isBlank();
+                    && authority != null && !authority.isBlank() && !authority.startsWith("@")
+                    && (uri.getHost() != null
+                            || authority.codePoints().anyMatch(c -> c > 127 && Character.isLetter(c)));
         } catch (IllegalArgumentException error) {
             return false;
         }

@@ -23,6 +23,8 @@ class QrInputTest {
             assertEquals(item[1], input.payload());
             assertEquals(item[2], input.summary());
         }
+        assertEquals("wifi", QrInput.validated("wifi", "Guest",
+                "WIFI:T:WPA;S:Cafe\\;Guest;P:p\\;a;;").type());
     }
 
     @Test
@@ -32,6 +34,18 @@ class QrInputTest {
         assertThrows(IllegalArgumentException.class, () -> QrInput.validated("other", "title", "hello"));
         assertThrows(IllegalArgumentException.class, () -> QrInput.validated("wifi", "title", "mailto:hello@example.com"));
         assertThrows(IllegalArgumentException.class, () -> QrInput.validated("url", "title", "ftp://example.com"));
+        assertThrows(IllegalArgumentException.class, () -> QrInput.validated("url", "title", "http://@"));
+        assertThrows(IllegalArgumentException.class, () -> QrInput.validated("wifi", "title", "WIFI:T:nopass;S:;;"));
+        assertThrows(IllegalArgumentException.class, () -> QrInput.validated("wifi", "title", "WIFI:T:WPA;S:Cafe;P:;;"));
+        assertThrows(IllegalArgumentException.class, () -> QrInput.validated("contact", "title",
+                "BEGIN:VCARD\r\nVERSION:3.0\r\nN:;;;;\r\nFN:\r\nEND:VCARD"));
+        assertThrows(IllegalArgumentException.class, () -> QrInput.validated("email", "title", "mailto:@"));
         assertThrows(IllegalArgumentException.class, () -> QrInput.validated("text", "title", " \n "));
+    }
+
+    @Test
+    void rejectsExcessivePayloadBeforeQrEncoding() {
+        assertThrows(IllegalArgumentException.class,
+                () -> QrInput.validated("text", "title", "가".repeat(3000)));
     }
 }
