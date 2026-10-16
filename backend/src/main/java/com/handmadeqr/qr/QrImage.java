@@ -47,6 +47,26 @@ public class QrImage {
         }
     }
 
+    public byte[] svg(String payload) {
+        BitMatrix matrix = matrix(payload, 1);
+        int width = matrix.getWidth();
+        int height = matrix.getHeight();
+        StringBuilder svg = new StringBuilder(width * height * 8);
+        svg.append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1024\" height=\"1024\" viewBox=\"0 0 ")
+                .append(width).append(' ').append(height)
+                .append("\" shape-rendering=\"crispEdges\"><path fill=\"#fff\" d=\"M0 0h")
+                .append(width).append('v').append(height).append("H0z\"/><path fill=\"#000\" d=\"");
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (matrix.get(x, y)) {
+                    svg.append('M').append(x).append(' ').append(y).append("h1v1h-1z");
+                }
+            }
+        }
+        svg.append("\"/></svg>");
+        return svg.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
+
     private BitMatrix matrix(String payload, int size) {
         if (payload == null || payload.isBlank()) {
             throw new IllegalArgumentException("QR payload is required");

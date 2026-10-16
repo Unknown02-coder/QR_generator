@@ -59,8 +59,17 @@ public class SavedQrRepository {
     }
 
     public Optional<String> findPayload(UUID ownerId, UUID qrId) {
-        List<byte[]> found = jdbc.query("SELECT encrypted_payload FROM saved_qrs WHERE id = ? AND owner_id = ?",
-                (rs, row) -> rs.getBytes("encrypted_payload"), qrId, ownerId);
-        return found.stream().findFirst().map(stored -> cipher.decrypt(ownerId, qrId, stored));
+        return findOwned(ownerId, qrId).map(StoredQr::payload);
+    }
+
+    public Optional<StoredQr> findOwned(UUID ownerId, UUID qrId) {
+        List<StoredQr> found = jdbc.query("SELECT type, encrypted_payload FROM saved_qrs WHERE id = ? AND owner_id = ?",
+                (rs, row) -> new StoredQr(rs.getString("type"),
+                        cipher.decrypt(ownerId, qrId, rs.getBytes("encrypted_payload"))), qrId, ownerId);
+        return found.stream().findFirst();
+    }
+
+    public boolean delete(UUID ownerId, UUID qrId) {
+        return jdbc.update("DELETE FROM saved_qrs WHERE id = ? AND owner_id = ?", qrId, ownerId) == 1;
     }
 }

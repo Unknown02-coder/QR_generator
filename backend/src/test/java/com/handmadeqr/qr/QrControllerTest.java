@@ -4,12 +4,15 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,9 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.handmadeqr.auth.GithubIdentity;
 import com.handmadeqr.auth.UserAccountRepository;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -123,6 +129,83 @@ class QrControllerTest {
         mvc.perform(get("/api/qrs?page=0").session(owner)).andExpect(status().isBadRequest());
         mvc.perform(get("/api/qrs?size=10").session(owner)).andExpect(status().isBadRequest());
         mvc.perform(get("/api/qrs?type=other").session(owner)).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void downloadsStoredPayloadAsPngAndSvgAndOnlyForOwner() throws Exception {
+        MockHttpSession owner = session(30105L, "download-owner");
+        MockHttpSession other = session(30106L, "download-other");
+        String payload = "WIFI:T:WPA;S:카페;P:비밀123;;";
+        String id = save(owner, "wifi", payload);
+
+        byte[] png = mvc.perform(get("/api/qrs/{id}/download?format=png", id).session(owner))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "image/png"))
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"qr-wifi.png\""))
+                .andExpect(header().string("Cache-Control", containsString("no-store")))
+                .andReturn().getResponse().getContentAsByteArray();
+        var bitmap = ImageIO.read(new ByteArrayInputStream(png));
+        assertEquals(1024, bitmap.getWidth());
+        assertEquals(1024, bitmap.getHeight());
+        assertEquals(payload, decode(bitmap));
+
+        String svg = mvc.perform(get("/api/qrs/{id}/download?format=svg", id).session(owner))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "image/svg+xml"))
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"qr-wifi.svg\""))
+                .andExpect(header().string("Cache-Control", containsString("no-store")))
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        assertFalse(svg.contains(payload));
+        var transcoder = new PNGTranscoder();
+        var rendered = new ByteArrayOutputStream();
+        transcoder.transcode(new TranscoderInput(new ByteArrayInputStream(svg.getBytes(StandardCharsets.UTF_8))),
+                new TranscoderOutput(rendered));
+        assertEquals(payload, decode(ImageIO.read(new ByteArrayInputStream(rendered.toByteArray()))));
+
+        mvc.perform(get("/api/qrs/{id}/download?format=svg", id).session(other))
+                .andExpect(status().isNotFound());
+        mvc.perform(get("/api/qrs/{id}/download?format=png", UUID.randomUUID()).session(owner))
+                .andExpect(status().isNotFound());
+        mvc.perform(get("/api/qrs/{id}/download?format=jpg", id).session(owner))
+                .andExpect(status().isBadRequest());
+        mvc.perform(get("/api/qrs/{id}/download", id).session(owner))
+                .andExpect(status().isBadRequest());
+        mvc.perform(get("/api/qrs/{id}/download?format=png", id))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void deletesOnlyOwnedQrWithCsrfAndMakesItUnavailable() throws Exception {
+        MockHttpSession owner = session(30107L, "delete-owner");
+        MockHttpSession other = session(30108L, "delete-other");
+        String id = save(owner, "text", "delete this QR");
+
+        mvc.perform(delete("/api/qrs/{id}", id).session(other).header("X-CSRF-TOKEN", csrf(other)))
+                .andExpect(status().isNotFound());
+        mvc.perform(delete("/api/qrs/{id}", id).session(owner)).andExpect(status().isForbidden());
+        mvc.perform(delete("/api/qrs/{id}", id).with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(delete("/api/qrs/{id}", id).session(owner).header("X-CSRF-TOKEN", csrf(owner)))
+                .andExpect(status().isNoContent());
+        mvc.perform(get("/api/qrs").session(owner)).andExpect(jsonPath("$.total").value(0));
+        mvc.perform(get("/api/qrs/{id}/preview", id).session(owner)).andExpect(status().isNotFound());
+        mvc.perform(get("/api/qrs/{id}/download?format=png", id).session(owner))
+                .andExpect(status().isNotFound());
+        mvc.perform(delete("/api/qrs/{id}", id).session(owner).header("X-CSRF-TOKEN", csrf(owner)))
+                .andExpect(status().isNotFound());
+    }
+
+    private String save(MockHttpSession session, String type, String payload) throws Exception {
+        String body = mvc.perform(post("/api/qrs").session(session).header("X-CSRF-TOKEN", csrf(session))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(Map.of("type", type, "title", "Saved QR", "payload", payload))))
+                .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+        return mapper.readTree(body).get("id").asText();
+    }
+
+    private String decode(java.awt.image.BufferedImage bitmap) throws Exception {
+        return new MultiFormatReader().decode(new BinaryBitmap(
+                new HybridBinarizer(new BufferedImageLuminanceSource(bitmap)))).getText();
     }
 
     private String csrf(MockHttpSession session) throws Exception {

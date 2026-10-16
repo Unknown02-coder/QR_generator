@@ -34,6 +34,7 @@ dependencies {
 	testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
 	testImplementation 'org.testcontainers:testcontainers-postgresql'
 	testImplementation 'com.google.zxing:javase:3.5.4'
+	testImplementation 'org.apache.xmlgraphics:batik-all:1.19'
 	testRuntimeOnly 'com.h2database:h2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
