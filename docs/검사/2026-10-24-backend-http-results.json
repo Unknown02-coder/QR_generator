@@ -1,0 +1,120 @@
+{
+  "commit": "46bbc9f232d259178a74940035f69638a29b60e2",
+  "oauthProvider": "local stub, not real GitHub",
+  "checks": [
+    {
+      "name": "packaged JAR starts with PostgreSQL and Flyway",
+      "passed": true
+    },
+    {
+      "name": "unauthenticated account APIs return 401",
+      "passed": true
+    },
+    {
+      "name": "OAuth callback, PKCE, session rotation and two separate users (stub provider)",
+      "passed": true
+    },
+    {
+      "name": "save without CSRF is rejected",
+      "passed": true
+    },
+    {
+      "name": "five QR types save and PNG/SVG files independently decode",
+      "detail": "10 real HTTP downloads; PNG 1024x1024",
+      "passed": true
+    },
+    {
+      "name": "PostgreSQL stores ciphertext; list omits raw payload and Wi-Fi password",
+      "passed": true
+    },
+    {
+      "name": "other user cannot preview, download or delete saved QR",
+      "passed": true
+    },
+    {
+      "name": "owner deletion returns 204; deleted QR cannot be accessed again",
+      "passed": true
+    },
+    {
+      "name": "logout invalidates session",
+      "passed": true
+    },
+    {
+      "name": "repeat login reuses internal user ID",
+      "passed": true
+    }
+  ],
+  "contractProbes": [
+    {
+      "name": "other user preview",
+      "expected": 404,
+      "observed": 403,
+      "conforms": false
+    },
+    {
+      "name": "other user download?format=png",
+      "expected": 404,
+      "observed": 403,
+      "conforms": false
+    },
+    {
+      "name": "other user download?format=svg",
+      "expected": 404,
+      "observed": 403,
+      "conforms": false
+    },
+    {
+      "name": "other user deletion",
+      "expected": 404,
+      "observed": 403,
+      "conforms": false
+    },
+    {
+      "name": "deleted QR download",
+      "expected": 404,
+      "observed": 403,
+      "conforms": false
+    },
+    {
+      "name": "deleted QR preview",
+      "expected": 404,
+      "observed": 403,
+      "conforms": false
+    },
+    {
+      "name": "repeated deletion",
+      "expected": 404,
+      "observed": 403,
+      "conforms": false
+    },
+    {
+      "name": "URL summary",
+      "expected": "example.com",
+      "observed": "웹 주소",
+      "conforms": false
+    },
+    {
+      "name": "list pagination",
+      "expected": "cursor / limit",
+      "observed": "page / size",
+      "conforms": false
+    },
+    {
+      "name": "same Idempotency-Key",
+      "expected": "same saved QR",
+      "observed": "two distinct QRs",
+      "conforms": false
+    },
+    {
+      "name": "vCard with trailing CRLF",
+      "expected": "201 for current frontend payload",
+      "observed": 400,
+      "conforms": false
+    }
+  ],
+  "downloads": 10,
+  "executionCompleted": true,
+  "success": false,
+  "checkedAt": "2026-10-24T04:33:17.790Z",
+  "cleanup": "temporary server, provider and PostgreSQL removed"
+}
